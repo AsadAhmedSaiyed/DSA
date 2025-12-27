@@ -1,4 +1,18 @@
 public class DeleteNAfterM {
+    public static class Node {
+        int data;
+        Node next;
+
+        public Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    public static Node head;
+    public static Node tail;
+    public static int size;
+
     static void linkdelete(Node head, int n, int m) {
         // your code here
         Node temp1 = head;
