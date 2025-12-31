@@ -1,6 +1,6 @@
 import java.util.Stack;
 
-public class InfixToPostfiz {
+public class InfixToPostfix {
     public static int priority(char ch){
         return switch (ch) {
             case '^' -> 3;
