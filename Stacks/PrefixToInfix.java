@@ -1,16 +1,16 @@
-import java.util.*;
+import java.util.Stack;
 
-public class PostfixToInfix {
+public class PrefixToInfix {
     public static String convert(String str){
         Stack<String> s = new Stack<>();
-        int i=0;
-        while(i<str.length()){
+        int i=str.length()-1;
+        while(i>=0){
             char ch = str.charAt(i);
             if(((ch >= 'A')&&(ch <= 'Z')) || (ch >= 'a' && ch <='z') || (ch >= 0 && ch <= 9)){
               s.push(String.valueOf(ch));
             }else{
-                String t2 = s.pop();
                 String t1 = s.pop();
+                String t2 = s.pop();
                 StringBuilder con = new StringBuilder();
                 con.append("(");
                 con.append(t1);
@@ -19,11 +19,11 @@ public class PostfixToInfix {
                 con.append(")");
                 s.push(con.toString());
             }
-            i++;
+            i--;
         }
         return s.peek();
     }
     public static void main(String[] args) {
-        System.out.println(convert("ab+"));
+        System.out.println(convert("/ab"));
     }
 }
