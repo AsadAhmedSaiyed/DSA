@@ -2,8 +2,6 @@ package BinaryTrees;
 
 import java.util.*;
 
-import javax.swing.tree.TreeNode;
-
 public class Build {
    static class Node {
       int data;
@@ -123,6 +121,141 @@ public class Build {
          int self = lh + rh + 1;
          return Math.max(Math.max(ld, rd), self) - 1;
       }
+
+      public boolean isIdentical(Node node, Node subRoot) {
+         if (node == null && subRoot == null) {
+            return true;
+         } else if (node == null || subRoot == null || node.data != subRoot.data) {
+            return false;
+         }
+         if (!isIdentical(node.left, subRoot.left)) {
+            return false;
+         }
+         if (!isIdentical(node.right, subRoot.right)) {
+            return false;
+         }
+         return true;
+      }
+
+      public boolean isSubTree(Node root, Node subRoot) {
+         if (root == null) {
+            return false;
+         }
+         if (root.data == subRoot.data) {
+            if (isIdentical(root, subRoot)) {
+               return true;
+            }
+         }
+
+         return isSubTree(root.left, subRoot) || isSubTree(root.right, subRoot);
+      }
+
+      static class Info {
+         Node node;
+         int hd;
+
+         public Info(Node node, int hd) {
+            this.node = node;
+            this.hd = hd;
+         }
+      }
+
+      public void topView(Node root) {
+         // level order
+         Queue<Info> q = new LinkedList<>();
+         HashMap<Integer, Node> map = new HashMap<>();
+         int min = 0;
+         int max = 0;
+         q.add(new Info(root, 0));
+         q.add(null);
+         while (!q.isEmpty()) {
+            Info curr = q.remove();
+            if (curr.node == null) {
+               if (q.isEmpty()) {
+                  break;
+               } else {
+                  q.add(null);
+               }
+            } else {
+               if (!map.containsKey(curr.hd)) {
+                  map.put(curr.hd, curr.node);
+               }
+               if (curr.node.left != null) {
+                  q.add(new Info(curr.node.left, curr.hd - 1));
+                  min = Math.min(min, curr.hd - 1);
+               }
+               if (curr.node.right != null) {
+                  q.add(new Info(curr.node.right, curr.hd + 1));
+                  max = Math.max(max, curr.hd + 1);
+               }
+            }
+
+         }
+         for (int i = min; i <= max; i++) {
+            System.out.print(map.get(i) + " ");
+         }
+      }
+
+      public void KthLevel(Node root, int level, int k) {
+         if (root == null) {
+            return;
+         }
+         if (level == k) {
+            System.out.print(root.data + " ");
+            return;
+         }
+         KthLevel(root.left, level + 1, k);
+         KthLevel(root.right, level + 1, k);
+      }
+
+      private boolean getPath(Node root, ArrayList<Node> path, Node node) {
+         if (root == null) {
+            return false;
+         }
+         path.add(root);
+         if (root.data == node.data) {
+            return true;
+         }
+         boolean foundLeft = getPath(root.left, path, node);
+         boolean foundRight = getPath(root.right, path, node);
+
+         if (foundLeft || foundRight) {
+            return true;
+         }
+         path.remove(path.size() - 1);
+         return false;
+      }
+
+      public Node lowestCommonAncestor(Node root, Node p, Node q) {
+         ArrayList<Node> path1 = new ArrayList<>();
+         ArrayList<Node> path2 = new ArrayList<>();
+         getPath(root, path1, p);
+         getPath(root, path2, q);
+         int i = 0;
+         while (i < path1.size() && i < path2.size()) {
+            if (path1.get(i) != path2.get(i)) {
+               break;
+            }
+            i++;
+         }
+         return path1.get(i - 1);
+      }
+
+      public Node lca(Node root, Node p, Node q) {
+
+         if (root == null || root == p || root == q) {
+            return root;
+         }
+         Node left = lca(root.left, p, q);
+         Node right = lca(root.right, p, q);
+         if (right == null) {
+            return left;
+         }
+         if (left == null) {
+            return right;
+         }
+         return root;
+      }
    }
 
    public static void main(String[] args) {
@@ -140,5 +273,6 @@ public class Build {
       System.out.println("");
       System.out.println(tree.height(root));
       System.out.println(tree.count(root));
+   
    }
 }

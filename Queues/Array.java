@@ -78,7 +78,7 @@ public class Array{
                 System.out.println("queue is empty");
                 return -1;
             }
-            int res = arr[0];
+            int res = arr[front];
             if(rear == front){
                 rear = front = -1;
             }else{
