@@ -256,6 +256,34 @@ public class Build {
          }
          return root;
       }
+
+      private int dist(Node root, int x) {
+         if (root == null) {
+            return -1;
+         }
+         if (root.data == x) {
+            return 0;
+         }
+         int left = dist(root.left, x);
+         int right = dist(root.right, x);
+         if (left == -1 && right == -1) {
+            return -1;
+         } else if (left == -1) {
+            return right + 1;
+         } else {
+            return left + 1;
+         }
+
+      }
+
+      public int findDist(Node root, int a, int b) {
+         Node ancestor = lca(root, a, b);
+         int left = dist(ancestor, a);
+         int right = dist(ancestor, b);
+
+         return left + right;
+
+      }
    }
 
    public static void main(String[] args) {
@@ -273,6 +301,6 @@ public class Build {
       System.out.println("");
       System.out.println(tree.height(root));
       System.out.println(tree.count(root));
-   
+
    }
 }
