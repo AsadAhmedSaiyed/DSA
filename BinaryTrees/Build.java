@@ -276,14 +276,38 @@ public class Build {
 
       }
 
-      public int findDist(Node root, int a, int b) {
+      public int findDist(Node root, Node a, Node b) {
          Node ancestor = lca(root, a, b);
-         int left = dist(ancestor, a);
-         int right = dist(ancestor, b);
+         int left = dist(ancestor, a.data);
+         int right = dist(ancestor, b.data);
 
          return left + right;
 
       }
+      int answer = -1;
+    private int helper(Node root, int k , int node ){
+        if(root == null){
+            return -1;
+        }
+        if(root.data == node){
+            return 0;
+        }
+        int left = helper(root.left,k,node);
+        int right = helper(root.right,k,node);
+        if(left == -1 && right == -1){
+            return -1;
+        }
+        int max = Math.max(left,right);
+        if((max+1) == k){
+            answer = root.data;
+        }
+        
+        return max+1;
+    }
+    public int kthAncestor(Node root, int k, int node) {
+        helper(root,k,node);
+        return answer;
+    }
    }
 
    public static void main(String[] args) {
