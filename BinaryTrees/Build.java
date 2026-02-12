@@ -308,6 +308,23 @@ public class Build {
         helper(root,k,node);
         return answer;
     }
+    private int transform(Node root){
+        if(root == null){
+            return 0;
+        }
+        int rightChild = transform(root.right);
+        int leftChild = transform(root.left);
+        int newData = root.data;
+        int newLeft = root.left == null ? 0 : root.left.data;
+         int newRight = root.right == null ? 0 : root.right.data;
+        root.data = rightChild + leftChild + newLeft + newRight;
+        return newData;
+    }
+    public void toSumTree(Node root) {
+        // add code here.
+        transform(root);
+        
+    }
    }
 
    public static void main(String[] args) {
