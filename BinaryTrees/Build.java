@@ -1,5 +1,3 @@
-package BinaryTrees;
-
 import java.util.*;
 
 public class Build {
@@ -131,10 +129,7 @@ public class Build {
          if (!isIdentical(node.left, subRoot.left)) {
             return false;
          }
-         if (!isIdentical(node.right, subRoot.right)) {
-            return false;
-         }
-         return true;
+         return isIdentical(node.right, subRoot.right);
       }
 
       public boolean isSubTree(Node root, Node subRoot) {
