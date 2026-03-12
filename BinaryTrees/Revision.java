@@ -45,7 +45,7 @@ public class Revision {
 
         int sum = Integer.MIN_VALUE;
 
-        private int helper(TreeNode root) {
+        private int helper(Node root) {
             if (root == null) {
                 return 0;
             }
@@ -57,9 +57,26 @@ public class Revision {
             return root.val + Math.max(leftSum, rightSum);
         }
 
-        public int maxPathSum(TreeNode root) {
+        public int maxPathSum(Node root) {
             helper(root);
             return sum;
+        }
+
+        private boolean helper(TreeNode left, TreeNode right) {
+            if (left == null && right == null) {
+                return true;
+            }
+            if (left == null || right == null) {
+                return false;
+            }
+            return left.val == right.val && helper(left.left, right.right) && helper(left.right, right.left);
+        }
+
+        public boolean isSymmetric(TreeNode root) {
+            if (root == null) {
+                return true;
+            }
+            return helper(root.left, root.right);
         }
     }
 
