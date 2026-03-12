@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class Revision {
     static class Node {
         int val;
@@ -62,22 +66,57 @@ public class Revision {
             return sum;
         }
 
-        private boolean helper(TreeNode left, TreeNode right) {
+        // leetcode 100
+        private boolean helper1(Node left, Node right) {
             if (left == null && right == null) {
                 return true;
             }
             if (left == null || right == null) {
                 return false;
             }
-            return left.val == right.val && helper(left.left, right.right) && helper(left.right, right.left);
+            return left.val == right.val && helper1(left.left, right.right) && helper1(left.right, right.left);
         }
 
-        public boolean isSymmetric(TreeNode root) {
+        public boolean isSymmetric(Node root) {
             if (root == null) {
                 return true;
             }
-            return helper(root.left, root.right);
+            return helper1(root.left, root.right);
         }
+
+        // leetcode 1325
+        public Node removeLeafNodes(Node root, int target) {
+            if (root == null) {
+                return null;
+            }
+            root.left = removeLeafNodes(root.left, target);
+            root.right = removeLeafNodes(root.right, target);
+            if (root.val == target && root.left == null && root.right == null) {
+                return null;
+            } else {
+                return root;
+            }
+        }
+    //leetcode 625    
+    HashMap<String,Integer> m = new HashMap<>();
+    ArrayList<Node> ans = new ArrayList<>();
+    private String helper2(Node root){
+        if(root == null){
+            return "N";
+        }
+        String left = helper2(root.left);
+        String right = helper2(root.right);
+        String tree = root.val + "," + left + "," + right;
+        m.put(tree,m.getOrDefault(tree,0)+1);
+        if(m.get(tree) == 2){
+            ans.add(root);
+        }
+        return tree;
+    }
+    public List<Node> findDuplicateSubtrees(Node root) {
+        helper2(root);
+        return ans;
+    }
     }
 
     public static void main(String[] args) {
