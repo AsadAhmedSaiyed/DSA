@@ -1,4 +1,7 @@
 
+import java.util.*;
+
+
 public class Build {
     public static class Node{
         int data;
@@ -90,6 +93,32 @@ public class Build {
             return rangeSumBST(root.left,low,high);
         }
         return root.data + rangeSumBST(root.left,low,high) + rangeSumBST(root.right,low,high);
+    }
+    
+    ArrayList<String> paths = new ArrayList<>();
+    StringBuilder ans = new StringBuilder("");
+    private void searchPaths(Node root){
+        if(root == null){
+            return;
+        }
+        int len = ans.length();
+        ans.append(root.data);
+        if(root.left == null && root.right == null){
+           paths.add(ans.toString());
+           ans.setLength(len); 
+           return;
+        }
+        ans.append("->");
+        searchPaths(root.left);
+        searchPaths(root.right);
+        ans.setLength(len);
+    }
+    public List<String> binaryTreePaths(Node root) {
+        if(root == null){
+            return paths;
+        }
+        searchPaths(root);
+        return paths;
     }
     public static void main(String[] args) {
         int val[] = {5,1,3,4,2,7};
