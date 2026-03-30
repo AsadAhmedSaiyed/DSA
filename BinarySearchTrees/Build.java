@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 
@@ -135,6 +134,111 @@ public class Build {
     public Node sortedArrayToBST(int[] nums) {
         return helper(nums,0,nums.length-1);
     }
+
+    //leetcode 1382
+    
+    private void inOrder(ArrayList<Integer> arr,Node root){
+        if(root == null){
+            return;
+        }
+        inOrder(arr,root.left);
+        arr.add(root.data);
+        inOrder(arr,root.right);
+    }
+    private Node createBST(ArrayList<Integer> arr, int start, int end){
+        if(start > end){
+            return null;
+        }
+        int mid = (start + end)/2;
+    Node root = new Node(arr.get(mid));
+        root.left = createBST(arr, start, mid-1);
+        root.right = createBST(arr,mid+1, end);
+        return root;
+    }
+    public Node balanceBST(Node root) {
+        ArrayList<Integer> arr = new ArrayList<>();
+        inOrder(arr,root);
+        return createBST(arr,0,arr.size()-1);
+    }
+
+    //size of largest bst in btree
+    static int maxSize = 0;
+    static class Info{
+        boolean isBST;
+        int min,max;
+        int size;
+        public Info(boolean isBST, int min, int max, int size){
+           this.isBST = isBST;
+           this.min = min;
+           this.max = max;
+           this.size = size;
+        }
+    }
+    private static Info helper(Node root){
+        if(root == null){
+            return new Info(true, Integer.MAX_VALUE,Integer.MIN_VALUE,0);
+        }
+        Info leftInfo = helper(root.left);
+        Info rightInfo = helper(root.right);
+        int size = leftInfo.size + rightInfo.size + 1;
+        int min = Math.min(root.data, Math.min(leftInfo.min,rightInfo.min));
+        int max = Math.max(root.data, Math.max(leftInfo.max,rightInfo.max));
+        if (!leftInfo.isBST || !rightInfo.isBST ||
+            root.data <= leftInfo.max || root.data >= rightInfo.min) {
+            return new Info(false, min, max, size);
+        }
+        maxSize = Math.max(maxSize, size);
+        return new Info(true, min, max, size);
+    }
+    // Return the size of the largest sub-tree which is also a BST
+    static int largestBst(Node root) {
+        maxSize = 0; 
+        helper(root);
+        return maxSize;
+    }
+
+    //merge 2 bsts
+    private void helper3(ArrayList<Integer> arr, Node root){
+        if(root == null){
+            return;
+        }
+        helper3(arr,root.left);
+        arr.add(root.data);
+        helper3(arr,root.right);
+    }
+    public ArrayList<Integer> merge(Node root1, Node root2) {
+        ArrayList<Integer> arr1 = new ArrayList<>();
+        ArrayList<Integer> arr2 = new ArrayList<>();
+        helper3(arr1,root1);
+        helper3(arr2,root2);
+        ArrayList<Integer> ans = new ArrayList<>();
+        int i=0;
+        int j=0;
+        while(i < arr1.size() && j < arr2.size()){
+            int n = arr1.get(i);
+            int m = arr2.get(j);
+            if(n<m){
+                ans.add(n);
+                i++;
+            }else{
+                ans.add(m);
+                j++;
+            }
+        }
+        while(i < arr1.size()){
+            int n = arr1.get(i);
+            ans.add(n);
+            i++;
+        }
+        while(j < arr2.size()){
+            int m = arr2.get(j);
+            ans.add(m);
+            j++;
+        }
+        
+        return ans;
+    }
+
     public static void main(String[] args) {
         int val[] = {5,1,3,4,2,7};
         Node root =  null;
