@@ -120,6 +120,21 @@ public class Build {
         searchPaths(root);
         return paths;
     }
+    //108 lc
+    
+    private Node helper(int nums[], int start, int end){
+        if(start > end){
+            return null;
+        }
+        int mid = (start+end)/2;
+        Node root = new Node(nums[mid]);
+        root.left = helper(nums,start,mid-1);
+        root.right = helper(nums, mid+1, end);
+        return root;
+    }
+    public Node sortedArrayToBST(int[] nums) {
+        return helper(nums,0,nums.length-1);
+    }
     public static void main(String[] args) {
         int val[] = {5,1,3,4,2,7};
         Node root =  null;
