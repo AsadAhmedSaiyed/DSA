@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.swing.tree.TreeNode;
+
 
 public class Build {
     public static class Node{
@@ -79,7 +81,7 @@ public class Build {
         }
         return root;
     }
-    
+
     public int rangeSumBST(Node root, int low, int high) {
         if(root == null){
             return 0;
@@ -237,6 +239,23 @@ public class Build {
         }
         
         return ans;
+    }
+    //leetcode 1008 imp
+    
+    static int idx = 0;
+    private TreeNode helper(int preorder[], int min, int max){
+        if(idx == preorder.length || preorder[idx] <= min || preorder[idx] >= max){
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[idx]);
+        idx++;
+        root.left = helper(preorder, min, root.val);
+        root.right = helper(preorder, root.val, max);
+        return root;
+    }
+    public TreeNode bstFromPreorder(int[] preorder) {
+        idx = 0;
+        return helper(preorder, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     public static void main(String[] args) {
