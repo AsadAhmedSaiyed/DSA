@@ -10,18 +10,21 @@ interface ChessPlayer{
 }
 
 class Queen implements ChessPlayer{
+    @Override
     public void moves(){
         System.out.println("All directions");
     }
 }
 
 class Elephant implements ChessPlayer{
+    @Override
     public void moves(){
         System.out.println("up, down, left, right");
     }
 }
 
 class King implements ChessPlayer{
+    @Override
     public void moves(){
         System.out.println("up, down, left, right, 1 step diagonal");
     }
