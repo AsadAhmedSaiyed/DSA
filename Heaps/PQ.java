@@ -13,7 +13,20 @@ public  class PQ {
       return this.rank - s2.rank;
     } 
   }
+  static class Marks implements Comparable<Marks>{
+     String name;
+     int score;
+     public Marks(String name, int score){
+      this.name = name;
+      this.score = score;
+     }
+     @Override
+     public int compareTo(Marks m2){
+       return this.score - m2.score;
+     } 
+  }
   public static void main(String[] args) {
+    PriorityQueue<Marks> pq2 = new PriorityQueue<>(); 
     PriorityQueue<Student> pq1 = new PriorityQueue<>();
     pq1.add(new Student("A",4));
     pq1.add(new Student("B",5));
@@ -27,6 +40,11 @@ public  class PQ {
     while(!pq.isEmpty()){
       System.out.print(pq.peek() + " ");
       pq.remove();
+    }
+    pq2.add(new Marks("asad",99));
+    pq2.add(new Marks("ahmed", 98));
+    while(!pq2.isEmpty()){
+      System.out.println(pq2.remove().score + " ");
     }
   }
 }

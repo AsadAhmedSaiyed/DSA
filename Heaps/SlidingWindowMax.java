@@ -1,5 +1,5 @@
 import java.util.*;
-class Solution {
+class SlidingWindowMax {
     private static class Num implements Comparable<Num>{
         int val;
         int idx;
@@ -12,6 +12,7 @@ class Solution {
             return n2.val-this.val;
         }
     }
+    
     public int[] maxSlidingWindow(int[] nums, int k) {
         int ans[] = new int[nums.length-k+1];
         PriorityQueue<Num> pq = new PriorityQueue<>();

@@ -23,7 +23,7 @@ public class CreateHeap {
             }
         }
 
-        public boolean isEmpty(){
+        public boolean isEmpty() {
             return arr.size() == 0;
         }
 
@@ -67,13 +67,34 @@ public class CreateHeap {
         }
     }
 
+    static class h {
+        ArrayList<Integer> arr = new ArrayList<>();
+
+        public void add(int data) {
+            arr.add(data);
+            int x = arr.size() - 1;
+            while (x > 0) {
+                int par = (x - 1) / 2;
+                if(arr.get(x) < arr.get(par)) {
+                    int temp = arr.get(x);
+                    arr.set(x, arr.get(par));
+                    arr.set(x, temp);
+                    x = par;
+                }else{
+                    break;
+                }
+            }
+        }
+      
+    }
+
     public static void main(String[] args) {
-        heap  h = new heap();
+        heap h = new heap();
         h.add(3);
         h.add(4);
         h.add(1);
         h.add(5);
-        while(!h.isEmpty()){
+        while (!h.isEmpty()) {
             System.out.print(h.peek() + " ");
             h.remove();
         }
