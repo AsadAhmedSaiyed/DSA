@@ -1,4 +1,8 @@
 import java.util.*;
+import java.util.Arrays;
+// BF 
+//TC - O(N) SC - O(1)
+
 class CPUScheduler {
     public int leastInterval(char[] tasks, int n) {
         HashMap<Character, Integer> m = new HashMap<>();
@@ -29,5 +33,20 @@ class CPUScheduler {
         }
         
         return ans;
+    }
+    
+    //O(1) SC and O(N) TC
+    public int leastInterval2(char[] tasks, int n) {
+        int freq[] = new int[26];
+        for(int i=0;i<tasks.length;i++){
+            freq[tasks[i]-'A']++;
+        }
+        Arrays.sort(freq);
+        int chunks = freq[25]-1;
+        int idle = chunks*n;
+        for(int i=24;i>=0;i--){
+            idle -= Math.min(freq[i],chunks);
+        }
+        return idle < 0 ? tasks.length : tasks.length+idle;
     }
 }
