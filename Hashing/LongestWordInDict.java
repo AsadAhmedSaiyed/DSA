@@ -1,5 +1,5 @@
-import java.util.*;
 import java.util.Arrays;
+import java.util.HashSet;
 class LongestWordInDict {
     public String longestWord(String[] words) {
         HashSet<String> s = new HashSet<>();
