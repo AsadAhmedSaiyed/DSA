@@ -1,7 +1,6 @@
+import java.util.ArrayList;
 
-import java.util.*;
-
-public class BFS {
+public class DCDG {
     static class Edge {
         int src;
         int dest;
@@ -13,7 +12,7 @@ public class BFS {
             this.wt = wt;
         }
     }
-
+   
     static void createGraph(ArrayList<Edge> graph[]) {
         graph[0].add(new Edge(0, 1, 5));
 
@@ -34,26 +33,33 @@ public class BFS {
         graph[4].add(new Edge(4, 2, 2));
 
     }
-
-    public static void bfs(ArrayList<Edge> graph[]){
-        //O(n)
-        Queue<Integer> q = new LinkedList<>();
-        boolean vis[] = new boolean[graph.length];
-        q.add(0);
-        while(!q.isEmpty()){
-            int curr = q.remove();
-            if(!vis[curr]) {
-                System.out.print(curr + " ");
-                vis[curr] = true;
-                for(int i=0;i<graph[curr].size();i++){
-                    Edge e = graph[curr].get(i);
-                    q.add(e.dest);
-                }
+    public static boolean detectCycleUtil(ArrayList<Edge> graph[], int curr, boolean vis[], boolean stack[]){
+        vis[curr] = true;
+        stack[curr] = true;
+        for(int i=0;i<graph[curr].size();i++){
+            Edge e = graph[curr].get(i);
+            if(stack[e.dest]){
+               return true;
+            }
+            if(!vis[e.dest] && detectCycleUtil(graph, e.dest, vis, stack)){
+              return true; 
             }
         }
-
+        stack[curr] = false;
+        return false;
     }
-
+    public static boolean detectCycle(ArrayList<Edge> graph[]){
+      boolean vis[] = new boolean[graph.length];
+      boolean stack[] = new boolean[graph.length];
+      for(int i=0;i<graph.length;i++){
+        if(!vis[i]){
+            if(detectCycleUtil(graph, i,vis, stack)){
+                return true;
+            }
+        }
+      }  
+      return false; 
+    }
     public static void main(String[] args) {
         int V = 5;
         ArrayList<Edge> graph[] = new ArrayList[V];// null -> empty AL
@@ -61,6 +67,6 @@ public class BFS {
             graph[i] = new ArrayList<>();
         }
         createGraph(graph);
-        bfs(graph);
+        System.out.println(detectCycle(graph));
     }
 }

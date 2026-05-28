@@ -1,7 +1,6 @@
-
 import java.util.*;
-
-public class BFS {
+public class KahnAlgo {
+   
     static class Edge {
         int src;
         int dest;
@@ -35,32 +34,47 @@ public class BFS {
 
     }
 
-    public static void bfs(ArrayList<Edge> graph[]){
-        //O(n)
+    public static void findIndeg(ArrayList<Edge> graph[], int arr[]){
+        for(int i=0;i<graph.length;i++){
+            int v = i;
+            for(int j=0;j<graph[v].size();j++){
+                Edge e = graph[v].get(j);
+                arr[e.dest]++;
+            }
+        }
+    }
+
+    public static void topoSort(ArrayList<Edge> graph[]){
+        int indeg[] = new int[graph.length];
         Queue<Integer> q = new LinkedList<>();
-        boolean vis[] = new boolean[graph.length];
-        q.add(0);
+        findIndeg(graph, indeg);
+        for(int i=0;i<indeg.length;i++){
+            if(indeg[i] == 0){
+                q.add(i);
+            }
+        }
+        //bfs
         while(!q.isEmpty()){
             int curr = q.remove();
-            if(!vis[curr]) {
-                System.out.print(curr + " ");
-                vis[curr] = true;
-                for(int i=0;i<graph[curr].size();i++){
-                    Edge e = graph[curr].get(i);
+            System.out.print(curr  + " ");
+            for(int i=0;i<graph[curr].size();i++){
+                Edge e = graph[curr].get(i);
+                indeg[e.dest]--;
+                if(indeg[e.dest] == 0){
                     q.add(e.dest);
                 }
             }
         }
-
     }
 
     public static void main(String[] args) {
         int V = 5;
+        @SuppressWarnings("unchecked")
         ArrayList<Edge> graph[] = new ArrayList[V];// null -> empty AL
         for (int i = 0; i < graph.length; i++) {
             graph[i] = new ArrayList<>();
         }
         createGraph(graph);
-        bfs(graph);
-    }
+        topoSort(graph);
+    }   
 }
