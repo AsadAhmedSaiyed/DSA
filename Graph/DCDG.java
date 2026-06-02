@@ -62,6 +62,7 @@ public class DCDG {
     }
     public static void main(String[] args) {
         int V = 5;
+        @SuppressWarnings("unchecked")
         ArrayList<Edge> graph[] = new ArrayList[V];// null -> empty AL
         for (int i = 0; i < graph.length; i++) {
             graph[i] = new ArrayList<>();
