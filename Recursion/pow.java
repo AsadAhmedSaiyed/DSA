@@ -22,6 +22,24 @@ public class pow {
         }
         return ans;
     }
+    public double myPow(double x, int n) {
+        if(n == 0) return 1;
+        if(n < 0){
+           double half = myPow(x , n/2);
+            if(n % 2 == 0){
+             return (half*half);
+            }else{
+             return (1/x) * (half*half);
+            }  
+        }else{
+            double half = myPow(x , n/2);
+            if(n % 2 == 0){
+             return half*half;
+            }else{
+             return x*half*half;
+            }
+        }
+    }
     public static void main(String[] args) {
         System.out.print(pow1(2 ,10 ));
     }
