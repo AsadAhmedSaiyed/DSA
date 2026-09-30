@@ -18,6 +18,7 @@ public class DisjointSet {
         int parB = find(b);
         if(rank[parA] == rank[parB]){
             par[parB] = parA;
+            rank[parA]++;
         }else if(rank[parA] > rank[parB]){
             par[parB] = parA;
         }else{
