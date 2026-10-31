@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.swing.tree.TreeNode;
+
 public class Build {
    static class Node {
       int data;
@@ -131,6 +133,27 @@ public class Build {
          }
          return isIdentical(node.right, subRoot.right);
       }
+
+      private static class ans{
+        boolean balanced;
+        int h;
+        public ans(boolean b, int h){
+            this.balanced = b;
+            this.h = h;
+        }
+    }
+    private ans helper(Node root){
+        if(root == null) return new ans(true, 0);
+        ans a1 = helper(root.left);
+        ans a2 = helper(root.right);
+        int diff = Math.abs(a1.h-a2.h);
+        boolean balanced = a1.balanced && a2.balanced && diff <=1;
+        return new ans(balanced, 1 + Math.max(a1.h, a2.h));
+    }
+    public boolean isBalanced(Node root) {
+        if(root == null) return true;
+        return helper(root).balanced;
+    }
 
       public boolean isSubTree(Node root, Node subRoot) {
          if (root == null) {
