@@ -62,6 +62,35 @@ public class DCU {
         }
         return false;
     }
+
+    private static boolean helper2(ArrayList<Edge> graph[], boolean vis[], int par, int curr){
+        vis[curr] = true;
+        for(int i=0;i<graph[curr].size();i++){
+            Edge e = graph[curr].get(i);
+            if(!vis[e.dest]){
+                if(helper2(graph, vis, curr, e.dest)){
+                    return true;
+                }
+            }
+            else if(vis[e.dest] && e.dest != par){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean find(ArrayList<Edge> graph[]){
+         boolean vis[] = new boolean[graph.length];
+         for(int i=0;i<graph.length;i++){
+            if(!vis[i]){
+                if(helper2(graph, vis, -1, i)){
+                    return true;
+                }
+            }
+         }
+         return false;
+    }
+
     public static void main(String[] args) {
         int V = 5;
         ArrayList<Edge> graph[] = new ArrayList[V];// null -> empty AL
