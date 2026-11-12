@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class ClonedGraph{
 
 class Node {
@@ -16,7 +20,7 @@ class Node {
         neighbors = _neighbors;
     }
 }
-*/
+
 
 class Solution {
     HashMap<Node, Node> h;
